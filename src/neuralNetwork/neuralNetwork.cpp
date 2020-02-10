@@ -41,12 +41,11 @@ void neuralNetwork::train(std::vector<double> inputData, std::vector<double> exp
 	// tempLayer = (Eoutput x target x (1 - target)) ; (x = elementwise Multiplication)
 	Eigen::VectorXd tempLayer = learnR * output_error.array() * 
 			expectedVector.array() * (Eigen::VectorXd::Ones(outNodes) - expectedVector).array();
-	Eigen::MatrixXd tempMatrix = tempLayer * hidden_outputs.transpose();
-	weightHiddenToOut += tempMatrix;
+	weightHiddenToOut += tempLayer * hidden_outputs.transpose();
 	// deltaW = alpha * Ehidden x target x (1 - Ooutput) * I^T
 	tempLayer = learnR * hidden_errors.array() * hidden_outputs.array() * 
 			(Eigen::VectorXd::Ones(hiddNodes) - hidden_outputs).array();
-	weightInToHidden = weightInToHidden + tempLayer * inputVector.transpose();
+	weightInToHidden += tempLayer * inputVector.transpose();
 
 
 }
